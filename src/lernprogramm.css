@@ -1,40 +1,26 @@
-/*Formatierung für den body
-Hintergrundfarbe, Schriftfarbe und Schriftfamilie*/
-* {
-  /*
-      margin: 0;
-      padding: 0;
-  */
-}
-
 body {
-  background-color: lightgrey;
-  height: 100vh;
-}
-
-header {
-  background: #000000 url(bilder/dresden.jpg) no-repeat left top;
-}
-
-aside {
-  background: yellowgreen;
-}
-
-nav {
-  background: SkyBlue;
-}
-
-main {
-  background: LightYellow;
-}
-
-footer {
-  background: Wheat;
-  text-align: center;
+  background-color: gainsboro;
 }
 
 header,
-main,
+footer {
+  min-height: 1em;
+  background: Wheat;
+}
+
+header {
+  background-image: url(../images/header.jpg);
+  background-position: center;
+  color: white;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* ------- Rahmen + Abstände -------- */
+header,
+article,
 nav,
 aside,
 footer {
@@ -42,4 +28,44 @@ footer {
   padding: 0.5em;
   border: 1px solid #ccc;
   border-radius: 0.5em;
+}
+
+/* -------- Fley-Container für Flex-Items: article, nav, aside  */
+main {
+  background-color: grey;
+  display: flex;
+}
+
+/* Flex-Items mit felx-grow, flex-shrink, flex-basis */
+nav {
+  background: SkyBlue;
+  order: 1;
+  flex: 0 0 2em;
+}
+article {
+  background: lightyellow;
+  order: 2;
+  flex: 3 3 0%;
+}
+aside {
+  background: yellowgreen;
+  order: 3;
+  flex: 1 1 0%;
+}
+
+/* wenn Viewport kleiner als 40 Zeichen -> eine Spalte, Reihenfolge */
+@media all and (max-width: 40em) {
+  main {
+    flex-direction: column;
+  }
+  /* Änderung der Reihenfolge für Kinder in Folge lt. html */
+  main > * {
+    order: 0;
+  }
+}
+
+/* Automatische Silbentrennung */
+body {
+  hyphens: auto;
+  -webkit-hyphens: auto;
 }
