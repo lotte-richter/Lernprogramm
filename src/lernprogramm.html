@@ -4,12 +4,14 @@
     <title>Lernprogramm</title>
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="lernprogramm.css" />
+    <script src="lernprogramm.js" type="text/javascript"></script>
   </head>
 
   <body>
     <header>Mathe</header>
-
+    
     <main>
+
       <nav>
         <ul id="navi">
           <a href="index.html" title="Zurück zur Startseite">Home</a>
@@ -17,22 +19,50 @@
       </nav>
 
       <aside>Sidebar</aside>
-
+      
       <article>
-        <div id="boo">Aufgabe</div>
 
-        <p></p>
+      <p>Lernfortschritt: <span id="punkte"></span></p>
 
-        <div id="answer">
-          <button id="A">A</button>
-          <button id="B">B</button>
-          <button id="C">C</button>
-          <button id="D">D</button>
-        </div>
-        <p id="text">Wähle die passende Antwort!</p>
+      <progress id="pOk" max="10" value="4"></progress>
+      <progress id="pNok" max="10" value="4"></progress>
+      <p></p>
+
+      <form>
+        <fielset id="notenwahl">
+          <input type="radio" id="note" name="note" value="1" checked="checked">
+          <label for="note">Noten</label>
+          <input type="radio" id="akkord3" name="note" value="2">
+          <label for="akkord3">Akkorde</label>
+          <input type="radio" id="mathe" name="note" value="3">
+          <label for="mathe">Mathe</label>
+        </fielset>
+      </form>
+      
+      <br>
+
+      <div id="boo">Aufgabe</div>
+
+      <div id="answer">
+        <button id="A" number="1" style>A</button>
+        <button id="B" number="2" style>B</button>
+        <button id="C" number="3" style>C</button>
+        <button id="D" number="0" style>D</button>
+      </div>
+
+      <p id="text">Wähle die passende Antwort!</p>
       </article>
     </main>
 
     <footer>Footer</footer>
+  <!--
+  <script>
+    if('serviceWorker' in navigator){
+      navigator.serviceWorker.register('./lernprogramm.js')
+        .then(reg => console.log(reg))
+        .catch(err => console.log(err));
+    }
+  </script>
+  -->
   </body>
 </html>

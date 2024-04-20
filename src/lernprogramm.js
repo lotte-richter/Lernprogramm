@@ -60,12 +60,7 @@ class View {
   setHandler() {
     // use capture false -> bubbling (von unten nach oben aufsteigend)
     // this soll auf Objekt zeigen -> bind (this)
-    document
-      .getElementById("answer")
-      .addEventListener("click", this.checkEvent.bind(this), false);
-    document
-      .getElementById("start")
-      .addEventListener("click", this.start.bind(this), false);
+    document.getElementById("answer").addEventListener("click", this.checkEvent.bind(this), false);
   }
 
   start() {
