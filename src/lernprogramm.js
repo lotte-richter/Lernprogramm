@@ -78,6 +78,15 @@ class Presenter {
   // Prüft die Antwort, aktualisiert Statistik und setzt die View
   checkAnswer(answer) {
     console.log("Antwort: ", answer);
+
+    if(answer === 0){
+      this.v.highlightButton(answer,true);
+      setTimeout(() => {
+        this.setTask();
+      }, 1000);
+    }else {
+      this.v.highlightButton(answer,false);
+    }
   }
 }
 
@@ -116,11 +125,6 @@ class View {
     let answerContainer = document.getElementById('answer-container');
     answerContainer.innerHTML='';
 
-    // Erstellen und anzeigen der Antwort-Buttons
-    // let answersDiv = document.createElement('div');
-    // answersDiv.classList.add('answers');
-    // questionContainer.appendChild(answersDiv);
-
     let shuffledAnswers = question.l.sort(() => Math.random() - 0.5);
 
     shuffledAnswers.forEach((answer,index) => {
@@ -144,16 +148,27 @@ class View {
     console.log(event.type);
     if (event.target.nodeName === "BUTTON") {
       this.p.checkAnswer(
-        Number(event.target.attributes.getNamedItem("number").value)
+        Number(event.target.getAttribute('data-index'))
       );
     }
   }
 
-  // static renderText(text) {
-  //   //this.clearElement("boo");
-  //   let div = document.getElementById("boo");
-  //   let p = document.createElement("p");
-  //   p.innerHTML = text;
-  //   div.appendChild(p);
-  // }
+
+
+  highlightButton(answer, isCorrect){
+    let buttons = document.querySelectorAll('#answer-container button');
+    buttons.forEach((button,index) => {
+      if(index === parseInt(answer)) {
+        button.style.backgroundColor = isCorrect ? 'green' : 'red';
+      } else {
+        button.style.backgroundColor = this.color;
+      }
+    });
+
+    setTimeout(() => {
+      buttons[answer].style.backgroundColor = 'white';
+    },200);
+
+  }
+
 }
