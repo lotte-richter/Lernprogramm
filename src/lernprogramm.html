@@ -2,9 +2,23 @@
 <html>
   <head>
     <title>Lernprogramm</title>
+<!--    <link rel="manifest" href="manifest.webmanifest">-->
+<!--    <link rel="icon" sizes="512x512" href="bilder/icon-512.png"/>-->
     <meta charset="UTF-8" />
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>-->
+<!--    <meta name="mobile-web-app-capable" content="yes"/>-->
+<!--    <meta name="ROBOTS" content="INDEX, FOLLOW"/>-->
+    
     <link rel="stylesheet" href="lernprogramm.css" />
+    
     <script src="lernprogramm.js" type="text/javascript"></script>
+    
+<!--    <link rel="stylesheet" href="scripts/katex/katex.css" type="text/css"/>-->
+<!--    <script src="scripts/katex/katex.min.js" type="text/javascript" defer></script>-->
+<!--    <script src="scripts/katex/contrib/auto-render.min.js" type="text/javascript" defer></script>-->
+<!--    <noscript>-->
+<!--      Sie haben JavaScript deaktiviert. Diese Seite benötigt zwingend JavaScript.-->
+<!--    </noscript>-->
   </head>
 
   <body>
@@ -21,40 +35,40 @@
       <aside>Sidebar</aside>
       
       <article>
+        <p id="kategorie">Kategorie:</p>
 
-      <p>Lernfortschritt: <span id="punkte"></span></p>
-
-      <progress id="pOk" max="10" value="4"></progress>
-      <progress id="pNok" max="10" value="4"></progress>
-      <p></p>
-
-      <form>
-        <fielset id="notenwahl">
-          <input type="radio" id="mathe" name="note" value="teil-mathe" checked="checked">
-          <label for="mathe">Mathe</label>
-          <input type="radio" id="internet" name="note" value="teil-internettechnologien">
-          <label for="internet">Internet</label>
-          <input type="radio" id="wissen" name="note" value="teil-allgemein">
-          <label for="wissen">Allgemeines Wissen</label>
-          <input type="radio" id="noten" name="note" value="teil-noten">
-          <label for="noten">Noten</label>
-        </fielset>
-      </form>
-      
-      <br>
-
-      <div id="question-container">
-        <!-- Hier werden die Fragen und Antworten dynamisch hinzugefügt -->
-      </div>
-
-      <div id="answer">
-        <button id="A" number="1" style>A</button>
-        <button id="B" number="2" style>B</button>
-        <button id="C" number="3" style>C</button>
-        <button id="D" number="0" style>D</button>
-      </div>
-
-      <p id="text">Wähle die passende Antwort!</p>
+        <form>
+          <fielset id="notenwahl">
+            <input type="radio" id="mathe" name="note" value="teil-mathe" checked="checked">
+            <label for="mathe">Mathe</label>
+            <input type="radio" id="internet" name="note" value="teil-internettechnologien">
+            <label for="internet">Internet</label>
+            <input type="radio" id="wissen" name="note" value="teil-allgemein">
+            <label for="wissen">Allgemeines Wissen</label>
+            <input type="radio" id="noten" name="note" value="teil-noten">
+            <label for="noten">Noten</label>
+          </fielset>
+        </form>
+        
+        <br>
+  
+        <div id="question-container">
+          <!-- Hier werden die Fragen und Antworten dynamisch hinzugefügt -->
+        </div>
+  
+<!--        <br>-->
+        <div id="answer-container">
+          <!-- Hier werden die Antworten als Button dynamisch hinzugefügt -->
+        </div>
+  
+        <p id="text">Wähle die passende Antwort!</p>
+        
+        
+        <p>Lernfortschritt: <span id="punkte"></span></p>
+        
+        <progress id="pOk" max="10" value="4"></progress>
+        <progress id="pNok" max="10" value="4"></progress>
+        <p></p>
       </article>
     </main>
 

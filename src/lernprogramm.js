@@ -91,7 +91,7 @@ class View {
   setHandler() {
     // use capture false -> bubbling (von unten nach oben aufsteigend)
     // this soll auf Objekt zeigen -> bind (this)
-    document.getElementById("answer").addEventListener("click", this.checkEvent.bind(this), false);
+    document.getElementById("answer-container").addEventListener("click", this.checkEvent.bind(this), false);
 
     // setze Handler für Kategorieauswahl
     document.querySelectorAll('input[name="note"]').forEach(radio => {
@@ -102,7 +102,7 @@ class View {
   }
 
   renderQuestion(question){
-    // Leere Container um alte Fragen zu entfernen
+    // Leere Container question-container
     let questionContainer = document.getElementById('question-container');
     questionContainer.innerHTML='';
 
@@ -112,10 +112,14 @@ class View {
     questionDiv.textContent = question.a;
     questionContainer.appendChild(questionDiv); // Anhängen des Frage-Elements
 
+    // Leere Container answer
+    let answerContainer = document.getElementById('answer-container');
+    answerContainer.innerHTML='';
+
     // Erstellen und anzeigen der Antwort-Buttons
-    let answersDiv = document.createElement('div');
-    answersDiv.classList.add('answers');
-    questionContainer.appendChild(answersDiv);
+    // let answersDiv = document.createElement('div');
+    // answersDiv.classList.add('answers');
+    // questionContainer.appendChild(answersDiv);
 
     let shuffledAnswers = question.l.sort(() => Math.random() - 0.5);
 
@@ -123,7 +127,7 @@ class View {
       let button = document.createElement('button');
       button.textContent = answer;
       button.setAttribute('data-index', index);
-      answersDiv.appendChild(button);
+      answerContainer.appendChild(button);
     });
   }
 
