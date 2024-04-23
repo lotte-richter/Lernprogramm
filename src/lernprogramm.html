@@ -30,18 +30,22 @@
 
       <form>
         <fielset id="notenwahl">
-          <input type="radio" id="note" name="note" value="1" checked="checked">
-          <label for="note">Noten</label>
-          <input type="radio" id="akkord3" name="note" value="2">
-          <label for="akkord3">Akkorde</label>
-          <input type="radio" id="mathe" name="note" value="3">
+          <input type="radio" id="mathe" name="note" value="teil-mathe" checked="checked">
           <label for="mathe">Mathe</label>
+          <input type="radio" id="internet" name="note" value="teil-internettechnologien">
+          <label for="internet">Internet</label>
+          <input type="radio" id="wissen" name="note" value="teil-allgemein">
+          <label for="wissen">Allgemeines Wissen</label>
+          <input type="radio" id="noten" name="note" value="teil-noten">
+          <label for="noten">Noten</label>
         </fielset>
       </form>
       
       <br>
 
-      <div id="boo">Aufgabe</div>
+      <div id="question-container">
+        <!-- Hier werden die Fragen und Antworten dynamisch hinzugefügt -->
+      </div>
 
       <div id="answer">
         <button id="A" number="1" style>A</button>
