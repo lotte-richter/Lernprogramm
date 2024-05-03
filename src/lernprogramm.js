@@ -79,13 +79,13 @@ class Presenter {
   checkAnswer(answer) {
     console.log("Antwort: ", answer);
 
-    if(answer === 0){
-      this.v.highlightButton(answer,true);
+    // Button einfärben
+    this.v.highlightButton(answer);
+
+    if(answer === 0) {
       setTimeout(() => {
         this.setTask();
       }, 1000);
-    }else {
-      this.v.highlightButton(answer,false);
     }
   }
 }
@@ -125,12 +125,15 @@ class View {
     let answerContainer = document.getElementById('answer-container');
     answerContainer.innerHTML='';
 
-    let shuffledAnswers = question.l.sort(() => Math.random() - 0.5);
+    let answerCopy = question.l.slice(); // Kopie des Arrays der Antworten
+    let shuffledAnswers = shuffleArray(answerCopy);
+    console.log("Anworten: ",question.l);
+    console.log("Gemischte Antworten:", shuffledAnswers);
 
-    shuffledAnswers.forEach((answer,index) => {
+    shuffledAnswers.forEach((answer) => {
       let button = document.createElement('button');
       button.textContent = answer;
-      button.setAttribute('data-index', index);
+      button.setAttribute('data-index', question.l.indexOf(answer));
       answerContainer.appendChild(button);
     });
   }
@@ -155,20 +158,29 @@ class View {
 
 
 
-  highlightButton(answer, isCorrect){
+  highlightButton(answer){
     let buttons = document.querySelectorAll('#answer-container button');
     buttons.forEach((button,index) => {
-      if(index === parseInt(answer)) {
-        button.style.backgroundColor = isCorrect ? 'green' : 'red';
+      if(answer === parseInt(button.getAttribute('data-index'))) {
+        button.style.backgroundColor = (answer === 0 ? 'green' : 'red');
       } else {
         button.style.backgroundColor = this.color;
       }
     });
 
     setTimeout(() => {
-      buttons[answer].style.backgroundColor = 'white';
+      buttons.item(answer).style.backgroundColor = 'white';
     },200);
 
   }
 
+}
+
+// Funktion zum Mischen eines Arrays (Antworten)
+function shuffleArray(array){
+  for(let i=0; i<array.length; i++){
+    const j = Math.floor(Math.random() * (i+1));
+    [array[i],array[j]] = [array[j],array[i]];
+  }
+  return array;
 }
