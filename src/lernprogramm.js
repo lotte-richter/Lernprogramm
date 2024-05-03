@@ -79,9 +79,6 @@ class Presenter {
   checkAnswer(answer) {
     console.log("Antwort: ", answer);
 
-    // Button einfärben
-    this.v.highlightButton(answer);
-
     if(answer === 0) {
       setTimeout(() => {
         this.setTask();
@@ -101,6 +98,8 @@ class View {
     // use capture false -> bubbling (von unten nach oben aufsteigend)
     // this soll auf Objekt zeigen -> bind (this)
     document.getElementById("answer-container").addEventListener("click", this.checkEvent.bind(this), false);
+    document.getElementById("answer-container").addEventListener("mousedown", this.colorOn.bind(this));
+    document.getElementById("answer-container").addEventListener("mouseup",this.colorOff.bind(this));
 
     // setze Handler für Kategorieauswahl
     document.querySelectorAll('input[name="note"]').forEach(radio => {
@@ -156,24 +155,20 @@ class View {
     }
   }
 
-
-
-  highlightButton(answer){
-    let buttons = document.querySelectorAll('#answer-container button');
-    buttons.forEach((button,index) => {
-      if(answer === parseInt(button.getAttribute('data-index'))) {
-        button.style.backgroundColor = (answer === 0 ? 'green' : 'red');
-      } else {
-        button.style.backgroundColor = this.color;
-      }
-    });
-
-    setTimeout(() => {
-      buttons.item(answer).style.backgroundColor = 'white';
-    },200);
-
+  colorOn(event) {
+    if(event.target.nodeName.toLowerCase() === "button"){
+      console.log("colorOn: "+event.type);
+      this.color = event.target.style.backgroundColor;
+      if(event.target.getAttribute('data-index') === "0"){
+        event.target.style.background = "green";
+      }else event.target.style.backgroundColor = "red";
+    }
   }
 
+  colorOff(event){
+    event.target.style.backgroundColor = this.color;
+    console.log("colorOff: "+event.type);
+  }
 }
 
 // Funktion zum Mischen eines Arrays (Antworten)
