@@ -1,6 +1,6 @@
 "use strict";
 
-//let p, v, m;
+const TOTAL_QUESTIONS = 10;
 document.addEventListener("DOMContentLoaded", function () {
   let m = new Model();
   let p = new Presenter();
@@ -68,16 +68,21 @@ class Presenter {
   setTask() {
     let question = this.m.getTask(this.category);
     this.v.renderQuestion(question);
-    // for (let i = 0; i < 4; i++) {
-    //   let wert = "42";
-    //   let pos = i;
-    //   View.inscribeButtons(i, wert, pos); // Tasten beschriften -> View -> Antworten
-    // }
   }
 
   // Prüft die Antwort, aktualisiert Statistik und setzt die View
   checkAnswer(answer) {
     console.log("Antwort: ", answer);
+
+    this.v.updateProgressBars(answer);
+
+    let rightProgress = parseFloat(document.getElementById("pOk").value);
+    let wrongProgress = parseFloat(document.getElementById("pNok").value);
+
+    if(rightProgress >= 10 || wrongProgress >= 10){
+      this.v.showEvaluation();
+      return;
+    }
 
     if(answer === 0) {
       setTimeout(() => {
@@ -168,6 +173,39 @@ class View {
   colorOff(event){
     event.target.style.backgroundColor = this.color;
     console.log("colorOff: "+event.type);
+  }
+
+  // Methode zum Aktualisieren der Progress bar
+  updateProgressBars(answer){
+    if(answer === 0){
+      //let progress = document.getElementById("pOk").value + 1/TOTAL_QUESTIONS;
+      document.getElementById("pOk").value += (1/TOTAL_QUESTIONS * 10);
+      console.log("right progress bar: ",document.getElementById("pOk").value);
+    } else{
+      document.getElementById("pNok").value += (1/TOTAL_QUESTIONS * 10);
+      console.log("wrong progress bar: ",document.getElementById("pNok").value);
+    }
+  }
+
+  showEvaluation(){
+
+    // Leere Container question-container
+    let questionContainer = document.getElementById('question-container');
+    questionContainer.innerHTML='';
+
+    // Leere Container answer
+    let answerContainer = document.getElementById('answer-container');
+    answerContainer.innerHTML='';
+
+    let evaluationContainer = document.createElement('div');
+    evaluationContainer.classList.add('evaluation');
+
+    let correctAnswerElement = document.createElement('p');
+    correctAnswerElement.textContent = 'Richtig beantwortete Fragen:';
+    evaluationContainer.appendChild(correctAnswerElement);
+
+    // Auswertung in die HTML-Seite einfügen
+    // document.article.appendChild(evaluationContainer);
   }
 }
 
