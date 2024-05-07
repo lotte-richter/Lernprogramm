@@ -201,15 +201,36 @@ class View {
     let evaluationContainer = document.getElementById("evaluation-container");
     evaluationContainer.innerHTML='';
 
+    // Überschrift
+    let heading = document.createElement('h2');
+    heading.textContent="Auswertung";
+    evaluationContainer.appendChild(heading);
 
+    // Element: Richtige Antworten
     let correctAnswerElement = document.createElement('p');
     correctAnswerElement.textContent = `Richtig beantwortete Fragen: ${correctAnswers}`;
     evaluationContainer.appendChild(correctAnswerElement);
 
-
+    // Element: Falsche Antworten
     let wrongAnswerElement = document.createElement('p');
     wrongAnswerElement.textContent = `Falsch beantwortete Fragen: ${wrongAnswers}`;
     evaluationContainer.appendChild(wrongAnswerElement);
+
+    // Element: Button - Weiter Lernen
+    let continueButton = document.createElement('button');
+    continueButton.textContent = "Weiter Lernen";
+    continueButton.setAttribute('id','continue-button');
+    document.getElementById("evaluation-container").appendChild(continueButton);
+
+    // Setze Handler für "Weiter Lernen" Button
+    document.getElementById("continue-button").addEventListener("click", this.continueLearning.bind(this));
+  }
+
+  continueLearning(){
+    document.getElementById("evaluation-container").innerHTML='';
+    document.getElementById("pOk").value = 0;
+    document.getElementById("pNok").value = 0;
+    this.p.setTask();
   }
 }
 
