@@ -27,60 +27,44 @@
     <main>
 
       <nav>
-        <ul id="navi">
-          <a href="index.html" title="Zurück zur Startseite">Home</a>
-        </ul>
+          <p id="kategorie">Kategorie:</p>
+          <form>
+              <input type="radio" id="mathe" name="note" value="teil-mathe" checked="checked">
+              <label for="mathe">Mathe</label><br>
+              <input type="radio" id="internet" name="note" value="teil-internettechnologien">
+              <label for="internet">Internet</label><br>
+              <input type="radio" id="wissen" name="note" value="teil-allgemein">
+              <label for="wissen">Allgemeines Wissen</label><br>
+              <input type="radio" id="noten" name="note" value="teil-noten">
+              <label for="noten">Noten</label><br>
+          </form>
       </nav>
 
       <aside>Sidebar</aside>
       
       <article>
-        <p id="kategorie">Kategorie:</p>
-
-        <form>
-          <fielset id="notenwahl">
-            <input type="radio" id="mathe" name="note" value="teil-mathe" checked="checked">
-            <label for="mathe">Mathe</label>
-            <input type="radio" id="internet" name="note" value="teil-internettechnologien">
-            <label for="internet">Internet</label>
-            <input type="radio" id="wissen" name="note" value="teil-allgemein">
-            <label for="wissen">Allgemeines Wissen</label>
-            <input type="radio" id="noten" name="note" value="teil-noten">
-            <label for="noten">Noten</label>
-          </fielset>
-        </form>
+        <p id="text">Wähle die passende Antwort!</p>
         
-        <br>
-  
         <div id="question-container">
           <!-- Hier werden die Fragen und Antworten dynamisch hinzugefügt -->
         </div>
   
-<!--        <br>-->
         <div id="answer-container">
           <!-- Hier werden die Antworten als Button dynamisch hinzugefügt -->
         </div>
-  
-        <p id="text">Wähle die passende Antwort!</p>
         
+        <div id="evaluation-container">
+          <!-- Hier wird die Auswertung angezeigt -->
+        </div>
         
         <p>Lernfortschritt: <span id="punkte"></span></p>
         
-        <progress id="pOk" max="10" value="4"></progress>
-        <progress id="pNok" max="10" value="4"></progress>
+        <progress id="pOk" max="10" value="0"></progress>
+        <progress id="pNok" max="10" value="0"></progress>
         <p></p>
       </article>
     </main>
 
     <footer>Footer</footer>
-  <!--
-  <script>
-    if('serviceWorker' in navigator){
-      navigator.serviceWorker.register('./lernprogramm.js')
-        .then(reg => console.log(reg))
-        .catch(err => console.log(err));
-    }
-  </script>
-  -->
   </body>
 </html>

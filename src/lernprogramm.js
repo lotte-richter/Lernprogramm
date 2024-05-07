@@ -1,5 +1,6 @@
 "use strict";
 
+// Anzahl Fragen bis eine Progress Bar voll ist
 const TOTAL_QUESTIONS = 10;
 document.addEventListener("DOMContentLoaded", function () {
   let m = new Model();
@@ -79,15 +80,18 @@ class Presenter {
     let rightProgress = parseFloat(document.getElementById("pOk").value);
     let wrongProgress = parseFloat(document.getElementById("pNok").value);
 
-    if(rightProgress >= 10 || wrongProgress >= 10){
-      this.v.showEvaluation();
+    if(rightProgress === 10 || wrongProgress === 10){
+      let correctAnswers = (rightProgress /10) * TOTAL_QUESTIONS;
+      let wrongAnswers = (wrongProgress/10) * TOTAL_QUESTIONS;
+      this.v.showEvaluation(correctAnswers, wrongAnswers);
       return;
     }
 
     if(answer === 0) {
-      setTimeout(() => {
-        this.setTask();
-      }, 1000);
+      this.setTask();
+      // setTimeout(() => {
+      //   this.setTask();
+      // }, 1000);
     }
   }
 }
@@ -187,25 +191,25 @@ class View {
     }
   }
 
-  showEvaluation(){
+  showEvaluation(correctAnswers, wrongAnswers){
+    // Verstecke das Frage- und Antwort-Element
+    document.getElementById("question-container").innerHTML='';
+    document.getElementById("answer-container").innerHTML='';
+    document.getElementById("text").innerHTML='';
 
-    // Leere Container question-container
-    let questionContainer = document.getElementById('question-container');
-    questionContainer.innerHTML='';
+    // Erstellung des Auswertung-Elements
+    let evaluationContainer = document.getElementById("evaluation-container");
+    evaluationContainer.innerHTML='';
 
-    // Leere Container answer
-    let answerContainer = document.getElementById('answer-container');
-    answerContainer.innerHTML='';
-
-    let evaluationContainer = document.createElement('div');
-    evaluationContainer.classList.add('evaluation');
 
     let correctAnswerElement = document.createElement('p');
-    correctAnswerElement.textContent = 'Richtig beantwortete Fragen:';
+    correctAnswerElement.textContent = `Richtig beantwortete Fragen: ${correctAnswers}`;
     evaluationContainer.appendChild(correctAnswerElement);
 
-    // Auswertung in die HTML-Seite einfügen
-    // document.article.appendChild(evaluationContainer);
+
+    let wrongAnswerElement = document.createElement('p');
+    wrongAnswerElement.textContent = `Falsch beantwortete Fragen: ${wrongAnswers}`;
+    evaluationContainer.appendChild(wrongAnswerElement);
   }
 }
 
