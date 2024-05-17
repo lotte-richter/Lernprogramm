@@ -2,13 +2,32 @@
 
 // Anzahl Fragen bis eine Progress Bar voll ist
 const TOTAL_QUESTIONS = 10;
+
 document.addEventListener("DOMContentLoaded", function () {
   let m = new Model();
   let p = new Presenter();
   let v = new View(p);
   p.setModelAndView(m, v);
+  document.getElementById("mathe").checked = true;
   p.setTask(); // Frage für die aktuelle Kategorie laden
 });
+
+// // Bearbeitung darf erst starten, wenn der Browser alle Daten geleaden hat 
+// window.addEventListener('DOMContentLoaded', (event) => {
+//   console.log('DOM fully loaded and parsed');
+
+//   // Formel in Element boo schreiben  
+//   katex.render("c = \\pm\\sqrt{a^2 + b^2}", boo, {
+//       throwOnError: false
+// });
+
+// // alle Textknoten ab boo2 werden gerendert
+// window.renderMathInElement(boo2, {delimiters: [
+//             {left: "$$", right: "$$", display: true},
+//           {left: "$", right: "$", display: false}
+//           ]} );
+
+// });
 
 // ############# Model ###########################################################################
 class Model {
@@ -16,16 +35,74 @@ class Model {
     this.questions = {
       "teil-mathe": [
         {"a":"x^2+x^2", "l":["2x^2","x^4","x^8","2x^4"]},
-        {"a":"x^2*x^2", "l":["x^4","x^2","2x^2","4x"]}
+        {"a":"x^2 \\cdot x^2", "l":["x^4","x^2","2x^2","4x"]},
+        {"a":"2x^3 + 3x^3", "l":["5x^3","6x^6","5x^6","6x^3"]},
+        {"a":"2x^4 - x^4", "l":["x^4","-x^4","x^8","x^2"]},
+        {"a":"3x^2 \\cdot 2x^3", "l":["6x^5","5x^6","6x^6","5x^5"]},
+        {"a":"4x^3 + 2x^3", "l":["6x^3","8x^6","6x^6","8x^3"]},
+        {"a":"5x^4 - 3x^4", "l":["2x^4","8x^4","-2x^4","-8x^4"]},
+        {"a":"2x^2 \\cdot 3x^3", "l":["6x^5","5x^6","6x^6","5x^5"]},
+        {"a":"3x^3 + 4x^3", "l":["7x^3","12x^6","7x^6","12x^3"]},
+        {"a":"4x^4 - 2x^4", "l":["2x^4","-2x^4","2x^8","-2x^8"]},
+        {"a":"2x^3 \\cdot x^3", "l":["2x^6","x^9","x^6","2x^9"]},
+        {"a":"5x^2 + x^2", "l":["6x^2","25x^4","6x^4","25x^2"]},
+        {"a":"3x^4 - x^4", "l":["2x^4","x^4","2x^8","x^8"]},
+        {"a":"2x^3 \\cdot 3x^2", "l":["6x^5","5x^6","6x^6","5x^5"]},
+        {"a":"4x^2 + 3x^2", "l":["7x^2","12x^4","7x^4","12x^2"]},
+        {"a":"5x^3 - 2x^3", "l":["3x^3","7x^6","3x^6","7x^3"]},
+        {"a":"3x^2 \\cdot x^3", "l":["3x^5","x^6","x^5","3x^6"]},
+        {"a":"4x^3 + 5x^3", "l":["9x^3","20x^6","9x^6","20x^3"]},
+        {"a":"2x^4 - 3x^4", "l":["-x^4","x^4","-x^8","x^8"]},
+        {"a":"2x^3 \\cdot 2x^2", "l":["4x^5","2x^6","4x^6","2x^5"]},
+        {"a":"3x^2 + 2x^2", "l":["5x^2","6x^4","5x^4","6x^2"]},
+        {"a":"4x^3 - 3x^3", "l":["x^3","7x^6","x^6","7x^3"]}
       ],
       "teil-internettechnologien": [
         {"a":"Welche Authentifizierung bietet HTTP", "l":["Digest Access Authentication","OTP","OAuth","2-Faktor-Authentifizierung"]},
-        {"a":"Welches Transportprotokoll eignet sich für zeitkritische Übertragungen", "l":["UDP","TCP","HTTP","Fast Retransmit"]}
-        // Weitere Fragen für Internettechnologien hier hinzufügen
+        {"a":"Welches Transportprotokoll eignet sich für zeitkritische Übertragungen", "l":["UDP","TCP","HTTP","Fast Retransmit"]},
+        {"a":"Welche Verschlüsselungstechnologie wird für sichere Webseiten verwendet?", "l":["SSL/TLS","AES","RSA","DES"]},
+        {"a":"Was ist ein DNS-Server?", "l":["Auflösung von IP-Adressen","E-Mails übertragen","Webseiten hosten","Datenbankabfragen verarbeiten"]},
+        {"a":"Was ist ein VPN?", "l":["Sichere Verbindung über Netzwerk","Verschlüsselung für E-Mails","Fehlerkorrektur bei Übertragung","Verteilung von Videos"]},
+        {"a":"Welches Protokoll wird häufig für die Übertragung von E-Mails verwendet?", "l":["SMTP","FTP","HTTP","SSH"]},
+        {"a":"Was ist ein Router?", "l":["Datenpakete weiterleiten","Drahtlose Übertragung","Internetzugang ermöglichen","Webseitenzugriff kontrollieren"]},
+        {"a":"Welches Protokoll wird häufig für das Abrufen von Webseiten verwendet?", "l":["HTTP","FTP","SMTP","DNS"]},
+        {"a":"Was ist eine Firewall?", "l":["Sicherheitsvorrichtung Datenverkehr kontrolliert","Netzwerküberwachung","Benutzeraktivitäten analysieren","Datenwiederherstellung"]},
+        {"a":"Welches Protokoll wird für die sichere Übertragung von Dateien verwendet?", "l":["SFTP","HTTP","SMTP","UDP"]},
+        {"a":"Was ist ein Proxy-Server?", "l":["Vermittler zwischen Client und Internet","Netzwerküberwachung","Datenverschlüsselung","Zentraler Dateispeicher"]},
+        {"a":"Welches Protokoll wird für die sichere Übertragung von Webseiten verwendet?", "l":["HTTPS","FTP","SMTP","TCP"]},
+        {"a":"Was ist ein DNS-Cache?", "l":["Temporäre Speicherung DNS-Anfragen","DNS-Sicherheitsvorrichtung","Spezielles Netzwerk DNS-Server","Spezielle DNS-Server"]},
+        {"a":"Was ist ein Load Balancer?", "l":["Verteilung der Netzwerklast","Internetgeschwindigkeitserhöhung","Datenverkehrüberwachung","WLAN-Signalverstärkung"]},
+        {"a":"Welche Authentifizierungsmethode verwendet ein Fingerabdruckscanner?", "l":["Biometrische Authentifizierung","OAuth","OTP","2-Faktor-Authentifizierung"]},
+        {"a":"Was ist eine MAC-Adresse?", "l":["Eindeutige Kennung für Netzwerkgeräte","Kennung für Webseiten","Spezielle IP-Adresse","Verschlüsselung drahtlose Netzwerke"]},
+        {"a":"Welches Protokoll wird für die Fernsteuerung von Computern verwendet?", "l":["RDP","FTP","HTTP","UDP"]},
+        {"a":"Was ist ein DoS-Angriff?", "l":["Angriff Überlastung Dienst","Netzwerkeindringen","Passwortdiebstahl","Datenmanipulation"]},
+        {"a":"Was ist ein NAT?", "l":["Network Address Translation","Drahtlose Verschlüsselung","Spezielle Firewall","Netzwerkzugriffsauthentifizierung"]},
+        {"a":"Welche Technologie ermöglicht die drahtlose Kommunikation zwischen Geräten in der Nähe?", "l":["Bluetooth","Ethernet","DSL","Wi-Fi"]},
+        {"a":"Was ist ein Port?", "l":["Dienstidentifikator","Datenübertragungskabel","Drahtlose Verschlüsselung","Netzwerkzugriffsauthentifizierung"]},
+        {"a":"Welches Protokoll wird für die automatische Konfiguration von IP-Adressen verwendet?", "l":["DHCP","DNS","FTP","HTTP"]}
       ],
       "teil-allgemein": [
-        {"a":"Karl der Große, Geburtsjahr", "l":["747","828","650","1150"]}
-        // Weitere Fragen für Allgemeinwissen hier hinzufügen
+        {"a":"Karl der Große, Geburtsjahr", "l":["747","828","650","1150"]},
+        {"a":"Wer schrieb das Buch 'Faust'?", "l":["Johann Wolfgang von Goethe","Friedrich Schiller","Heinrich Heine","Thomas Mann"]},
+        {"a":"Wie heißt die Hauptstadt von Frankreich?", "l":["Paris","Berlin","London","Rom"]},
+        {"a":"In welchem Jahr landeten die ersten Menschen auf dem Mond?", "l":["1969","1954","1975","1982"]},
+        {"a":"Wer malte die Mona Lisa?", "l":["Leonardo da Vinci","Vincent van Gogh","Pablo Picasso","Michelangelo"]},
+        {"a":"Was ist die Hauptstadt von Spanien?", "l":["Madrid","Barcelona","Rom","Paris"]},
+        {"a":"Wer war der erste Präsident der Vereinigten Staaten?", "l":["George Washington","Abraham Lincoln","Thomas Jefferson","John F. Kennedy"]},
+        {"a":"Wie viele Kontinente gibt es auf der Erde?", "l":["Sieben","Fünf","Zehn","Vier"]},
+        {"a":"In welchem Jahr begann der Erste Weltkrieg?", "l":["1914","1905","1920","1939"]},
+        {"a":"Welcher Planet ist der größte im Sonnensystem?", "l":["Jupiter","Mars","Venus","Saturn"]},
+        {"a":"Wer schrieb 'Romeo und Julia'?", "l":["William Shakespeare","Johann Wolfgang von Goethe","Friedrich Schiller","Hermann Hesse"]},
+        {"a":"Wie viele Minuten hat eine Stunde?", "l":["60","30","45","90"]},
+        {"a":"Was ist die Hauptstadt von Italien?", "l":["Rom","Mailand","Florenz","Venedig"]},
+        {"a":"In welchem Jahr fiel die Berliner Mauer?", "l":["1989","1975","1991","1963"]},
+        {"a":"Wer entdeckte die Schwerkraft?", "l":["Isaac Newton","Albert Einstein","Galileo Galilei","Nikola Tesla"]},
+        {"a":"Was ist die Hauptstadt von Deutschland?", "l":["Berlin","München","Hamburg","Frankfurt"]},
+        {"a":"Wie viele Sekunden hat eine Minute?", "l":["60","30","45","90"]},
+        {"a":"Wer komponierte die 'Ode an die Freude'?", "l":["Ludwig van Beethoven","Wolfgang Amadeus Mozart","Johann Sebastian Bach","Frédéric Chopin"]},
+        {"a":"In welchem Jahr wurde die amerikanische Unabhängigkeitserklärung unterschrieben?", "l":["1776","1789","1801","1820"]},
+        {"a":"Wer war der erste Mensch im Weltall?", "l":["Juri Gagarin","Neil Armstrong","Buzz Aldrin","Yuri Gagarin"]},
+        {"a":"Wie viele Beine hat eine Spinne?", "l":["Acht","Sechs","Zehn","Vier"]}
       ],
       "teil-noten": [
         {"a":"C4", "l":["C","D","E","H"]},
@@ -62,6 +139,18 @@ class Presenter {
 
   changeCategory(category){
     this.category = category;
+
+    // Auswertung ausblenden
+    let rightProgress = parseFloat(document.getElementById("pOk").value);
+    let wrongProgress = parseFloat(document.getElementById("pNok").value);
+
+    if(rightProgress === 10 || wrongProgress === 10){
+      document.getElementById("evaluation-container").innerHTML='';
+      document.getElementById("pOk").value = 0;
+      document.getElementById("pNok").value = 0;
+      document.getElementById("text").textContent="Wähle die passende Antwort!";
+    }
+
     this.setTask();
   }
 
@@ -126,7 +215,13 @@ class View {
     // Erstellen des Frage-Elements
     let questionDiv = document.createElement('div');
     questionDiv.classList.add('question');
-    questionDiv.textContent = question.a;
+
+    // Rendern des math. Ausdrucks mit KaTeX
+    if(this.p.category === "teil-mathe"){
+      katex.render(question.a, questionDiv);
+    } else{
+      questionDiv.textContent = question.a;
+    }
     questionContainer.appendChild(questionDiv); // Anhängen des Frage-Elements
 
     // Leere Container answer
@@ -135,12 +230,19 @@ class View {
 
     let answerCopy = question.l.slice(); // Kopie des Arrays der Antworten
     let shuffledAnswers = shuffleArray(answerCopy);
-    console.log("Anworten: ",question.l);
-    console.log("Gemischte Antworten:", shuffledAnswers);
+    // console.log("Anworten: ",question.l);
+    // console.log("Gemischte Antworten:", shuffledAnswers);
 
     shuffledAnswers.forEach((answer) => {
       let button = document.createElement('button');
-      button.textContent = answer;
+
+      if(this.p.category === "teil-mathe"){
+        // Rendern mit KaTeX
+        katex.render(answer,button);
+      } else{
+        button.textContent = answer;
+      }
+
       button.setAttribute('data-index', question.l.indexOf(answer));
       answerContainer.appendChild(button);
     });
@@ -157,26 +259,30 @@ class View {
 
   checkEvent(event) {
     console.log(event.type);
-    if (event.target.nodeName === "BUTTON") {
+    if (event.target.closest('button')) {
       this.p.checkAnswer(
-        Number(event.target.getAttribute('data-index'))
+        Number(event.target.closest('button').getAttribute('data-index'))
       );
     }
   }
 
   colorOn(event) {
-    if(event.target.nodeName.toLowerCase() === "button"){
+    let button = event.target.closest('button');
+    if(button){
       console.log("colorOn: "+event.type);
-      this.color = event.target.style.backgroundColor;
-      if(event.target.getAttribute('data-index') === "0"){
-        event.target.style.background = "green";
-      }else event.target.style.backgroundColor = "red";
+      this.color = button.style.backgroundColor;
+      if(button.getAttribute('data-index') === "0"){
+        button.style.background = "green";
+      }else button.style.backgroundColor = "red";
     }
   }
 
   colorOff(event){
-    event.target.style.backgroundColor = this.color;
+    let button = event.target.closest('button');
+    if(button){
+      button.style.backgroundColor = this.color;
     console.log("colorOff: "+event.type);
+    }
   }
 
   // Methode zum Aktualisieren der Progress bar
@@ -230,6 +336,7 @@ class View {
     document.getElementById("evaluation-container").innerHTML='';
     document.getElementById("pOk").value = 0;
     document.getElementById("pNok").value = 0;
+    document.getElementById("text").textContent="Wähle die passende Antwort!";
     this.p.setTask();
   }
 }
