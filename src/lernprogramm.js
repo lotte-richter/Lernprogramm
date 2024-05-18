@@ -1,33 +1,54 @@
 "use strict";
 
-// Anzahl Fragen bis eine Progress Bar voll ist
-const TOTAL_QUESTIONS = 10;
+const TOTAL_QUESTIONS = 10;// Anzahl Fragen bis eine Progress Bar voll ist
+const SERVER_QUESTIONS = 2; // Anzahl der Fragen, die vom Server geholt werden /10
 
 document.addEventListener("DOMContentLoaded", function () {
   let m = new Model();
   let p = new Presenter();
   let v = new View(p);
   p.setModelAndView(m, v);
+  for(var i=0; i<SERVER_QUESTIONS;i++){
+    fetchQuizzes(i);
+  }
   document.getElementById("mathe").checked = true;
   p.setTask(); // Frage für die aktuelle Kategorie laden
+
+// Funktion zum Abrufen einer Aufgabe vom externen Server
+  function fetchQuizzes(pageNumber){
+    fetch("https://idefix.informatik.htw-dresden.de:8888/api/quizzes?page="+pageNumber, {
+      method: "GET",
+      headers: {
+        "Authorization": "Basic " + btoa("test@gmail.com:secret")
+      },
+      redirect: "follow"
+    })
+      .then(response => {
+        if(!response.ok){
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then(data => {
+        if(data.content && data.content.length > 0){
+          data.content.forEach(question => {
+            console.log("id: "+ question.id + " text: " + question.text + " options: " + question.options);
+            m.addQuestion({
+              id: question.id,
+              a: question.text,
+              l: question.options
+            });
+          });
+          console.log('Fragen erfolgreich hinzugefügt.');
+        } else {
+          console.log('Keine Fragen gefunden.');
+        }
+      })
+      .catch(error => {
+        console.error('Fetch error: ',error);
+      });
+  }
 });
-
-// // Bearbeitung darf erst starten, wenn der Browser alle Daten geleaden hat 
-// window.addEventListener('DOMContentLoaded', (event) => {
-//   console.log('DOM fully loaded and parsed');
-
-//   // Formel in Element boo schreiben  
-//   katex.render("c = \\pm\\sqrt{a^2 + b^2}", boo, {
-//       throwOnError: false
-// });
-
-// // alle Textknoten ab boo2 werden gerendert
-// window.renderMathInElement(boo2, {delimiters: [
-//             {left: "$$", right: "$$", display: true},
-//           {left: "$", right: "$", display: false}
-//           ]} );
-
-// });
 
 // ############# Model ###########################################################################
 class Model {
@@ -108,8 +129,16 @@ class Model {
         {"a":"C4", "l":["C","D","E","H"]},
         {"a":"(C4 E4 G4)", "l":["C","H","F","D"]}
         // Weitere Fragen für Noten hier hinzufügen
-      ]
+      ],
+      "teil-server":[/*{"id": "102", "a":"(C4 E4 G4)", "l":["C","H","F","D"]}*/],
     };
+  }
+
+
+
+  // Hinzufügen einer Frage zur Kategorie Quizserver
+  addQuestion(question){
+    this.questions["teil-server"].push(question);
   }
 
   // Holt eine Frage aus dem Array, zufällig ausgewählt oder vom Server
@@ -129,7 +158,6 @@ class Model {
 class Presenter {
   constructor() {
     this.category = "teil-mathe"; // Standardkategorie
-    this.questionNumber = 0;
   }
 
   setModelAndView(m, v) {
@@ -178,9 +206,6 @@ class Presenter {
 
     if(answer === 0) {
       this.setTask();
-      // setTimeout(() => {
-      //   this.setTask();
-      // }, 1000);
     }
   }
 }
