@@ -185,6 +185,9 @@ class Presenter {
   // Holt eine neue Frage aus dem Model und setzt die View
   setTask() {
     let question = this.m.getTask(this.category);
+    if(this.category === "teil-server"){
+      this.questionId = question.id;
+    }
     this.v.renderQuestion(question);
   }
 
@@ -192,7 +195,23 @@ class Presenter {
   checkAnswer(answer) {
     console.log("Antwort: ", answer);
 
-    this.v.updateProgressBars(answer);
+    if(this.category === "teil-server"){
+      this.sendAnswerToServer(this.questionId, answer)
+        .then(isCorrect => {
+          console.log("data.success: ", isCorrect);
+          if(isCorrect){
+            this.v.updateProgressBars(0);
+          }else {
+            this.v.updateProgressBars(1);
+          }
+        })
+        .catch(error => {
+          console.error("Error checking answer with server: ",error);
+        });
+    } else{
+      this.v.updateProgressBars(answer);
+    }
+
 
     let rightProgress = parseFloat(document.getElementById("pOk").value);
     let wrongProgress = parseFloat(document.getElementById("pNok").value);
@@ -207,6 +226,33 @@ class Presenter {
     if(answer === 0) {
       this.setTask();
     }
+  }
+
+  // Funktion zum Senden der Antwort an den Server
+  sendAnswerToServer(id,answer){
+    return fetch("https://idefix.informatik.htw-dresden.de:8888/api/quizzes/"+id+"/solve", {
+      method: "POST",
+      headers: {
+        "Authorization": "Basic " + btoa("test@gmail.com:secret"),
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify([answer])
+    })
+      .then(response => {
+        console.log("Response: ",response);
+        if(!response.ok){
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log("Data: ",data);
+        return data.success;
+      })
+      .catch(error => {
+        console.error('Error: ', error);
+        throw error;
+      })
   }
 }
 
