@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
     fetchQuizzes(i);
   }
   document.getElementById("mathe").checked = true;
+  document.getElementById('header').textContent = "Mathe";
   p.setTask(); // Frage für die aktuelle Kategorie laden
 
 // Funktion zum Abrufen einer Aufgabe vom externen Server
@@ -158,7 +159,6 @@ class Model {
 class Presenter {
   constructor() {
     this.category = "teil-mathe"; // Standardkategorie
-    this.waitingForServerResponse = false;
   }
 
   setModelAndView(m, v) {
@@ -168,6 +168,10 @@ class Presenter {
 
   changeCategory(category){
     this.category = category;
+
+    let categoryId = document.querySelector('input[name="note"]:checked').id;
+    let categoryName = document.querySelector(`label[for="${categoryId}"]`).textContent;
+    document.getElementById('header').textContent = categoryName;
 
     // Auswertung ausblenden
     let rightProgress = parseFloat(document.getElementById("pOk").value);
@@ -262,6 +266,7 @@ class View {
   constructor(p) {
     this.p = p; // Presenter
     this.setHandler();
+    this.updateWindowSize();
   }
 
   setHandler() {
@@ -277,6 +282,8 @@ class View {
         this.p.changeCategory(radio.value);
       });
     });
+
+    window.addEventListener('resize', this.updateWindowSize.bind(this));
   }
 
   renderQuestion(question){
@@ -408,6 +415,12 @@ class View {
     document.getElementById("pNok").value = 0;
     document.getElementById("text").textContent="Wähle die passende Antwort!";
     this.p.setTask();
+  }
+
+  updateWindowSize(){
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    document.getElementById('window-size').textContent= `${width} x ${height}`;
   }
 }
 

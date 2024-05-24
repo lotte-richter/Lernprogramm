@@ -1,9 +1,15 @@
 body {
   background-color: gainsboro;
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
 }
 
 header,
 footer {
+  --height: 50px;
   min-height: 1em;
   background: Wheat;
 }
@@ -91,6 +97,8 @@ footer {
 main {
   background-color: grey;
   display: flex;
+  flex: 1;
+  margin: 0.25em;
 }
 
 /* Flex-Items mit felx-grow, flex-shrink, flex-basis */
