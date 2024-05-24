@@ -158,6 +158,7 @@ class Model {
 class Presenter {
   constructor() {
     this.category = "teil-mathe"; // Standardkategorie
+    this.waitingForServerResponse = false;
   }
 
   setModelAndView(m, v) {
@@ -201,6 +202,7 @@ class Presenter {
           console.log("data.success: ", isCorrect);
           if(isCorrect){
             this.v.updateProgressBars(0);
+            this.setTask();
           }else {
             this.v.updateProgressBars(1);
           }
@@ -212,7 +214,6 @@ class Presenter {
       this.v.updateProgressBars(answer);
     }
 
-
     let rightProgress = parseFloat(document.getElementById("pOk").value);
     let wrongProgress = parseFloat(document.getElementById("pNok").value);
 
@@ -223,7 +224,7 @@ class Presenter {
       return;
     }
 
-    if(answer === 0) {
+    if(answer === 0 && this.category !== "teil-server") {
       this.setTask();
     }
   }
@@ -239,14 +240,14 @@ class Presenter {
       body: JSON.stringify([answer])
     })
       .then(response => {
-        console.log("Response: ",response);
+        // console.log("Response: ",response);
         if(!response.ok){
           throw new Error("Network response was not ok");
         }
         return response.json();
       })
       .then(data => {
-        console.log("Data: ",data);
+        // console.log("Data: ",data);
         return data.success;
       })
       .catch(error => {
@@ -319,15 +320,6 @@ class View {
     });
   }
 
-  start() {
-    this.p.setTask();
-  }
-
-  static inscribeButtons(i, text, pos) {
-    document.querySelectorAll("#answer > *")[i].textContent = text;
-    document.querySelectorAll("#answer > *")[i].setAttribute("number", pos);
-  }
-
   checkEvent(event) {
     console.log(event.type);
     if (event.target.closest('button')) {
@@ -338,17 +330,23 @@ class View {
   }
 
   colorOn(event) {
+    if(this.p.category === "teil-server")
+      return;
+
     let button = event.target.closest('button');
     if(button){
       console.log("colorOn: "+event.type);
       this.color = button.style.backgroundColor;
-      if(button.getAttribute('data-index') === "0"){
+      if (button.getAttribute('data-index') === "0") {
         button.style.background = "green";
-      }else button.style.backgroundColor = "red";
+      } else button.style.backgroundColor = "red";
     }
   }
 
   colorOff(event){
+    if(this.p.category === "teil-server" && this.p.waitingForServerResponse)
+      return;
+
     let button = event.target.closest('button');
     if(button){
       button.style.backgroundColor = this.color;
@@ -368,6 +366,7 @@ class View {
     }
   }
 
+  // Methode zum Anzeigen der Auswertung
   showEvaluation(correctAnswers, wrongAnswers){
     // Verstecke das Frage- und Antwort-Element
     document.getElementById("question-container").innerHTML='';
