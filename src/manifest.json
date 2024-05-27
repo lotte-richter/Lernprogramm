@@ -1,0 +1,7 @@
+{
+  "name": "Lernapp",
+  "short_name": "Lernapp",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait"
+}

@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Lernprogramm</title>
-    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="manifest" href="manifest.json">
 <!--    <link rel="icon" sizes="512x512" href="bilder/icon-512.png"/>-->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -19,6 +19,14 @@
     
     <link rel="stylesheet" href="lernprogramm.css" />
     
+    <script>
+      // Service Worker registrieren für PWA
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('../scripts/sw.js')
+          .then(reg => console.log(reg))
+          .catch(err => console.log(err));
+      }
+    </script>
     
   </head>
 
@@ -75,6 +83,7 @@
     </footer>
 
     <script src="lernprogramm.js" type="text/javascript"></script>
+    
     
   </body>
 </html>
