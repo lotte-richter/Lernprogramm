@@ -1,7 +1,7 @@
 "use strict";
 
 const TOTAL_QUESTIONS = 10;// Anzahl Fragen bis eine Progress Bar voll ist
-const SERVER_QUESTIONS = 2; // Anzahl der Fragen, die vom Server geholt werden /10
+const SERVER_QUESTIONS = 2; // Anzahl der Fragen, die vom Server geholt werden * 10
 
 document.addEventListener("DOMContentLoaded", function () {
   let m = new Model();
@@ -33,7 +33,6 @@ document.addEventListener("DOMContentLoaded", function () {
       .then(data => {
         if(data.content && data.content.length > 0){
           data.content.forEach(question => {
-            console.log("id: "+ question.id + " text: " + question.text + " options: " + question.options);
             m.addQuestion({
               id: question.id,
               a: question.text,
@@ -150,9 +149,6 @@ class Model {
     let randomIndex = Math.floor(Math.random() * categoryQuestions.length);
     return categoryQuestions[randomIndex];
   }
-  checkAnswer() {
-    // TODO
-  }
 }
 
 // ############ Presenter ########################################################################
@@ -206,9 +202,13 @@ class Presenter {
           console.log("data.success: ", isCorrect);
           if(isCorrect){
             this.v.updateProgressBars(0);
-            this.setTask();
+            if(parseFloat(document.getElementById("pOk").value) !== 10){
+              this.setTask();
+            }
+            this.checkProgressBar();
           }else {
             this.v.updateProgressBars(1);
+            this.checkProgressBar();
           }
         })
         .catch(error => {
@@ -216,16 +216,7 @@ class Presenter {
         });
     } else{
       this.v.updateProgressBars(answer);
-    }
-
-    let rightProgress = parseFloat(document.getElementById("pOk").value);
-    let wrongProgress = parseFloat(document.getElementById("pNok").value);
-
-    if(rightProgress === 10 || wrongProgress === 10){
-      let correctAnswers = (rightProgress /10) * TOTAL_QUESTIONS;
-      let wrongAnswers = (wrongProgress/10) * TOTAL_QUESTIONS;
-      this.v.showEvaluation(correctAnswers, wrongAnswers);
-      return;
+      this.checkProgressBar();
     }
 
     if(answer === 0 && this.category !== "teil-server") {
@@ -244,20 +235,30 @@ class Presenter {
       body: JSON.stringify([answer])
     })
       .then(response => {
-        // console.log("Response: ",response);
         if(!response.ok){
           throw new Error("Network response was not ok");
         }
         return response.json();
       })
       .then(data => {
-        // console.log("Data: ",data);
         return data.success;
       })
       .catch(error => {
         console.error('Error: ', error);
         throw error;
       })
+  }
+
+  // Überprüft die Progress-Bars, ob die Auswertung angezeigt werden muss
+  checkProgressBar(){
+    let rightProgress = parseFloat(document.getElementById("pOk").value);
+    let wrongProgress = parseFloat(document.getElementById("pNok").value);
+
+    if(rightProgress === 10 || wrongProgress === 10){
+      let correctAnswers = (rightProgress /10) * TOTAL_QUESTIONS;
+      let wrongAnswers = (wrongProgress/10) * TOTAL_QUESTIONS;
+      this.v.showEvaluation(correctAnswers, wrongAnswers);
+    }
   }
 }
 
@@ -309,8 +310,6 @@ class View {
 
     let answerCopy = question.l.slice(); // Kopie des Arrays der Antworten
     let shuffledAnswers = shuffleArray(answerCopy);
-    // console.log("Anworten: ",question.l);
-    // console.log("Gemischte Antworten:", shuffledAnswers);
 
     shuffledAnswers.forEach((answer) => {
       let button = document.createElement('button');
@@ -351,7 +350,7 @@ class View {
   }
 
   colorOff(event){
-    if(this.p.category === "teil-server" && this.p.waitingForServerResponse)
+    if(this.p.category === "teil-server")
       return;
 
     let button = event.target.closest('button');
@@ -364,7 +363,6 @@ class View {
   // Methode zum Aktualisieren der Progress bar
   updateProgressBars(answer){
     if(answer === 0){
-      //let progress = document.getElementById("pOk").value + 1/TOTAL_QUESTIONS;
       document.getElementById("pOk").value += (1/TOTAL_QUESTIONS * 10);
       console.log("right progress bar: ",document.getElementById("pOk").value);
     } else{
