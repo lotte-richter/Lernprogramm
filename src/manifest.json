@@ -2,6 +2,8 @@
   "name": "Lernapp",
   "short_name": "Lernapp",
   "start_url": "/",
+  "theme_color": "#0f4c75",
+  "background_color": "#1B262C",
   "display": "standalone",
   "orientation": "portrait"
 }
