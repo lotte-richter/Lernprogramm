@@ -1,0 +1,98 @@
+\documentclass{article}
+
+\usepackage[a4paper, left=3cm, right=3cm, top=4cm]{geometry}
+\usepackage{dirtree}
+
+
+\title{Projekt-Dokumentation - Lernprogramm - Beleg Internettechnologien I}
+\date{27-05-2024}
+\author{Lotte Richter\\ s85482\\Matrikelnummer: 53042}
+
+\begin{document}
+  \maketitle
+  \tableofcontents
+  \newpage
+
+\section{Projektübersicht}
+
+Dieses Projekt ist eine Progressive Web App(PWA) für ein Lernprogramm, welches auch offlinefähig ist.
+offlinefähig.\\\\
+Das Programm ist ein Lernprogramm, dessen Funktionalität darin besteht, Fragen zu beantworten und damit einen Lernfortschritt zu erreichen.
+Dazu kann man aus verschiedenen Kategorien wählen aus denen zufällige Fragen, passend zur Kategorie, gewählt werden.
+
+Zu jeder Frage gibt es vier Antworten. Je nachdem, ob man die Frage richtig beantwortet, färbt sich der Button der Antwort rot oder grün ein
+und die entsprechende Progress-Bar wird erhöht. Ist die Antwort falsch, so kann man sie direkt erneut beantworten. Ist die Antwort richtig, so wird
+eine neue Frage geladen.
+
+Wenn eine der beiden Progress-Bars 100\% erreicht, wird eine kurze Auswertung angezeigt.
+
+\section{Verzeichnisstruktur}
+Das Projekt ist folgendermaßen strukturiert:\\
+
+\dirtree{%
+  .1 Lernprogramm.
+    .2 doc.
+      .3 Projekt-Dokumentation\_Richter\_Lotte.tex.
+      .3 Projekt-Dokumentation\_Richter\_Lotte.pdf.
+    .2 images.
+      .3 demo.png.
+    .2 scripts.
+      .3 sw.js.
+    .2 src.
+      .3 lernprogramm.css.
+      .3 lernprogramm.html.
+      .3 lernprogramm.js.
+      .3 manifest.json.
+    .2 Beleg-Aufgabenformat.md.
+    .2 Beleg-Aufgabenstellung.md.
+    .2 README.md.
+}
+
+\section{Technologien und Abhängigkeiten}
+
+\begin{itemize}
+  \item HTML5: Struktur der Webanwendung
+  \item CSS3: Styling der Anwendung
+  \item JavaScript: Funktionalität der Anwendung
+  \item Service Worker: Offline-Fähigkeit und Caching
+  \item Fetch API: Abrufen von Quizfragen von einem externen Server
+  \item PWA Manifest: Definition der PWA-Eigenschaften
+  \item KaTeX: Rendering von mathematischen Formeln
+\end{itemize}
+Bei dem Entwurf des Grundgerüsts des Programmes habe ich mich an den Beispielen aus der Vorlesung und Praktikum orientiert.\\\\
+Um den Quizserver nutzen zu können, muss man sich im Netz der HTW Dresden befinden, da sonst der Server nicht erreicht werden
+kann, von dem die Fragen geholt werden.
+
+\section{Weiterentwicklung}
+Konfigurationen:
+\begin{itemize}
+  \item Es können mehr Fragen vom Quizserver geholt werden, wenn man die Konstante SERVER\_QUESTIONS in der Datei lernprogramm.js erhöht.
+  Die Konstante gibt an, wie viele Pages vom Server geholt werden. Dabei besitzt eine Page zehn Fragen.
+  \item Es kann die Anzahl an beantworteten Fragen geänder werden, die es braucht bis eine Progress Bar 100\% erreicht. Dazu wird die Konstante
+  TOTAL\_QUESTIONS in der Datei lernprogramm.js verwendet.
+  \item Die CSS-Formatierung der Progress Bars funktioniert nur mit dem Browser Firefox. Wenn man eine anderen Browser nutzt, enpfiehlt es sich
+  die im Code markierten Stellen zu ändern.
+\end{itemize}
+Erweiterung des Fragenkatalogs:
+\begin{itemize}
+  \item Weitere Fragen können in den jeweiligen Kategorien im 'questions' Objekt hinzugefügt werden.
+\end{itemize}
+UI-Verbesserungen:
+\begin{itemize}
+  \item Man kann die CSS-Datei anpassen, um die Benutzeroberfläche des Lernprogramms zu verbessern.
+\end{itemize}
+Button Highlight der Kategorie Quizserver
+\begin{itemize}
+  \item Nach dem Anklicken eines Buttons wird dieser rot oder grün hervorgehoben, je nachdem ob die Antwort richtig ist. Da beim Quizserver die Antworten
+  anders geprüft werden, als bei den lokalen Fragen und das ganze asynchron läuft, ist mir keine elegante Lösung zur Hervorhebung der Buttons gefunden.
+\end{itemize}
+
+\section{Nutzung von KI}
+\subsection{ChatGPT}
+Zum Entwicklen des Programmes wurd an manchen Stellen die KI "ChatGPT" genutzt. Hauptsächlich zu Beginn des Projektes, sobald das Projekt und 
+die Quellcodes ein bisschen umfangreicher wurde, war die KI nicht mehr so hilfreich. 
+
+Genutzt wurde ChatGPT bei simplen Aufgaben, wie das Einlesen der Daten aus der JSON-Datei, oder bei der Erstellung von Dokumenten, wie. z.B. die
+Projekt-Dokumentation.
+
+\end{document}
