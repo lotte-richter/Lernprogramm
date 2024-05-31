@@ -1,7 +1,7 @@
 {
   "name": "Lernapp",
   "short_name": "Lernapp",
-  "start_url": "/",
+  "start_url": "/~s85482/Lernprogramm/src/lernprogramm.html",
   "theme_color": "#0f4c75",
   "background_color": "#1B262C",
   "display": "standalone",
